@@ -1,4 +1,4 @@
-package ru.hpclab.hl.module1.model;
+package digital.zil.hl.module1.model;
 
 
 import org.springframework.lang.NonNull;

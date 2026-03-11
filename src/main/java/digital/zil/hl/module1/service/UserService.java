@@ -1,7 +1,7 @@
-package ru.hpclab.hl.module1.service;
+package digital.zil.hl.module1.service;
 
-import ru.hpclab.hl.module1.model.User;
-import ru.hpclab.hl.module1.repository.UserRepository;
+import digital.zil.hl.module1.model.User;
+import digital.zil.hl.module1.repository.UserRepository;
 
 import java.util.List;
 import java.util.UUID;

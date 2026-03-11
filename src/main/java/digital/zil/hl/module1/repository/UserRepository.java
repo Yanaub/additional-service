@@ -1,9 +1,9 @@
-package ru.hpclab.hl.module1.repository;
+package digital.zil.hl.module1.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ObjectUtils;
-import ru.hpclab.hl.module1.controller.exeption.UserException;
-import ru.hpclab.hl.module1.model.User;
+import digital.zil.hl.module1.controller.exeption.UserException;
+import digital.zil.hl.module1.model.User;
 
 import java.util.*;
 

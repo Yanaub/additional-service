@@ -1,4 +1,4 @@
-package ru.hpclab.hl.module1.service;
+package digital.zil.hl.module1.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;

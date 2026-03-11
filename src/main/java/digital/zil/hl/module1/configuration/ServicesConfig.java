@@ -1,12 +1,12 @@
-package ru.hpclab.hl.module1.configuration;
+package digital.zil.hl.module1.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.hpclab.hl.module1.model.User;
-import ru.hpclab.hl.module1.repository.UserRepository;
-import ru.hpclab.hl.module1.service.StatisticsService;
-import ru.hpclab.hl.module1.service.UserService;
+import digital.zil.hl.module1.model.User;
+import digital.zil.hl.module1.repository.UserRepository;
+import digital.zil.hl.module1.service.StatisticsService;
+import digital.zil.hl.module1.service.UserService;
 
 import java.util.UUID;
 

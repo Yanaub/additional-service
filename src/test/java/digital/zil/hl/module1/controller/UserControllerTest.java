@@ -1,20 +1,18 @@
-package ru.hpclab.hl.module1.controller;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+package digital.zil.hl.module1.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.hpclab.hl.module1.Application;
-import ru.hpclab.hl.module1.model.User;
-import ru.hpclab.hl.module1.repository.UserRepository;
-
+import digital.zil.hl.module1.Application;
+import digital.zil.hl.module1.model.User;
+import digital.zil.hl.module1.repository.UserRepository;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
 
@@ -27,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class UserControllerTest {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mvc;

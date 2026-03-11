@@ -1,4 +1,4 @@
-package ru.hpclab.hl.module1.controller.exeption;
+package digital.zil.hl.module1.controller.exeption;
 
 public class UserException extends RuntimeException {
 

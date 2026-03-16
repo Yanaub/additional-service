@@ -22,10 +22,10 @@ import java.util.UUID;
 public class ServicesConfig {
 
     @Bean
-    ExhibitService exhibitService(ExhibitRepository exhibitRepository) {
-        ExhibitService exhibitService = new ExhibitService(exhibitRepository);
+    ExhibitService exhibitService(ExhibitRepository exhibitRepository,ExcursionRepository excursionRepository) {
+        ExhibitService exhibitService = new ExhibitService(exhibitRepository,excursionRepository);
 
-        // Добавляем тестовые данные
+
         for (int i = 0; i < 5; i++) {
             Exhibit exhibit = new Exhibit();
             exhibit.setIdentifier(UUID.randomUUID());
@@ -39,10 +39,10 @@ public class ServicesConfig {
     }
 
     @Bean
-    VisitorService visitorService(VisitorRepository visitorRepository) {
-        VisitorService visitorService = new VisitorService(visitorRepository);
+    VisitorService visitorService(VisitorRepository visitorRepository,ExcursionRepository excursionRepository) {
+        VisitorService visitorService = new VisitorService(visitorRepository, excursionRepository);
 
-        // Добавляем тестовые данные
+
         for (int i = 0; i < 3; i++) {
             Visitor visitor = new Visitor();
             visitor.setIdentifier(UUID.randomUUID());

@@ -15,7 +15,11 @@ public class ExcursionService {
     public List<Excursion> getAllExcursions() { return excursionRepository.findAll(); }
     public Excursion getExcursionById(String id) { return excursionRepository.findById(UUID.fromString(id)); }
     public Excursion saveExcursion(Excursion excursion) { return excursionRepository.save(excursion); }
-    public void deleteExcursion(String id) { excursionRepository.delete(UUID.fromString(id)); }
+    public void deleteExcursion(String id) {
+        excursionRepository.delete(UUID.fromString(id));
+
+
+    }
     public Excursion updateExcursion(String id, Excursion excursion) {
         excursion.setIdentifier(UUID.fromString(id));
         return excursionRepository.put(excursion);

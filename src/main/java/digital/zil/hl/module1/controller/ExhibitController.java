@@ -6,6 +6,7 @@ import digital.zil.hl.module1.model.Exhibit;
 import digital.zil.hl.module1.service.ExhibitService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ExhibitController {
@@ -20,6 +21,10 @@ public class ExhibitController {
     @GetMapping("/exhibits")
     public List<Exhibit> getExhibits() {
         return exhibitService.getAllExhibits();
+    }
+    @GetMapping("/exhibits/rating")
+    public Map<String, Integer> getExhibitsRating() {
+        return exhibitService.ratingExhibits();
     }
 
     @GetMapping("/exhibits/{id}")

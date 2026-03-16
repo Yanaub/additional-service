@@ -8,9 +8,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class VisitorExceptionHandler {
 
-    @ExceptionHandler
-    public ResponseEntity<String> onVisitorException(VisitorException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
+    private static final String VISITOR_HAS_EXCURSIONS_MSG = "linked to existing excursions";
 
+    @ExceptionHandler(VisitorException.class)
+    public ResponseEntity<String> onVisitorException(VisitorException e) {
+        String message = e.getMessage();
+
+        if (message.contains(VISITOR_HAS_EXCURSIONS_MSG)) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(message);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(message);
+    }
 }

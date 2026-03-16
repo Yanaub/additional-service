@@ -58,9 +58,9 @@ public class Exhibit {
     @Override
     public String toString() {
         return "Exhibit{" +
-                "identifier=" + identifier +
-                ", name='" + name  +
-                ", epoch='" + epoch +
+                "identifier=" + identifier + '\''+
+                ", name='" + name  + '\''+
+                ", epoch='" + epoch + '\''+
                 ", description='" + description + '\'' +
                 '}';
     }

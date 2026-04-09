@@ -1,0 +1,28 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: museum-postgres
+    environment:
+      POSTGRES_DB: museum_db
+      POSTGRES_USER: museum_user
+      POSTGRES_PASSWORD: museum_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: museum-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@museum.com
+      PGADMIN_DEFAULT_PASSWORD: admin_pass
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

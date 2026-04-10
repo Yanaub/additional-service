@@ -2,6 +2,9 @@ package digital.zil.hl.module1.model;
 
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +26,9 @@ public class Exhibit {
     @NonNull
     @Column(nullable = false)
     private String description;
+
+    @ManyToMany(mappedBy = "exhibits")
+    private Set<Excursion> excursions = new HashSet<>();
 
     public Exhibit(@NonNull UUID identifier, @NonNull String name,
                    @NonNull String epoch, @NonNull String description) {

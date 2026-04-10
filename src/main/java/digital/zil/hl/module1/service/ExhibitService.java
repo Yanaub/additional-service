@@ -50,13 +50,17 @@ public class ExhibitService {
         }
         return exhibitRepository.save(exhibit);
     }
-
+    boolean hasExcursionsForExhibit(UUID exhibitId) {
+        return excursionRepository.findAll().stream()
+                .anyMatch(ex -> ex.getExhibits().stream()
+                        .anyMatch(e -> e.getIdentifier().equals(exhibitId)));
+    }
     public void deleteExhibit(String id) {
         UUID uuid = UUID.fromString(id);
         if (!exhibitRepository.existsById(uuid)) {
             throw new ExhibitException(format(EXHIBIT_NOT_FOUND_MSG, id));
         }
-        if (excursionRepository.existsByExhibitId(uuid)) {
+        if (hasExcursionsForExhibit(uuid)) {
             throw new ExhibitException(format(EXHIBIT_HAS_EXCURSIONS_MSG, id));
         }
         exhibitRepository.deleteById(uuid);
@@ -75,21 +79,23 @@ public class ExhibitService {
         return exhibitRepository.save(exhibit);
     }
 
-    public Map<String, Integer> ratingExhibits() {
-        LocalDate now = LocalDate.now();
-        LocalDate start = LocalDate.of(now.getYear(), now.getMonth(), 1);
-        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+    public Map<String, Integer> ratingExhibits(int year, int month) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        Map<String, Integer> result = exhibitRepository.findAll().stream()
+        Map<String, Integer> rating = exhibitRepository.findAll().stream()
                 .collect(Collectors.toMap(Exhibit::getName, e -> 0));
 
         excursionRepository.findAll().stream()
-                .filter(e -> !e.getDate().isBefore(start) && !e.getDate().isAfter(end))
-                .map(Excursion::getExhibitId)
-                .map(exhibitId -> exhibitRepository.findById(exhibitId).orElse(null))
-                .filter(Objects::nonNull)
-                .forEach(exhibit -> result.merge(exhibit.getName(), 1, Integer::sum));
+                .filter(e -> !e.getDate().isBefore(startDate) && !e.getDate().isAfter(endDate))
+                .flatMap(excursion -> excursion.getExhibits().stream())
+                .forEach(exhibit -> rating.merge(exhibit.getName(), 1, Integer::sum));
 
-        return result;
+        return rating;
+    }
+
+    public Map<String, Integer> ratingExhibitsNow() {
+        LocalDate now = LocalDate.now();
+        return ratingExhibits(now.getYear(), now.getMonthValue());
     }
 }

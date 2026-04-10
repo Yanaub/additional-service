@@ -22,69 +22,23 @@ import java.util.UUID;
 public class ServicesConfig {
 
     @Bean
-    ExhibitService exhibitService(ExhibitRepository exhibitRepository,ExcursionRepository excursionRepository) {
-        ExhibitService exhibitService = new ExhibitService(exhibitRepository,excursionRepository);
-
-
-        for (int i = 0; i < 5; i++) {
-            Exhibit exhibit = new Exhibit();
-            exhibit.setIdentifier(UUID.randomUUID());
-            exhibit.setName("Exhibit " + i);
-            exhibit.setEpoch("Epoch " + i);
-            exhibit.setDescription("Description for exhibit " + i);
-            exhibitRepository.save(exhibit);
-        }
-
-        return exhibitService;
+    ExhibitService exhibitService(ExhibitRepository exhibitRepository, ExcursionRepository excursionRepository) {
+        return new ExhibitService(exhibitRepository, excursionRepository);
     }
 
     @Bean
-    VisitorService visitorService(VisitorRepository visitorRepository,ExcursionRepository excursionRepository) {
-        VisitorService visitorService = new VisitorService(visitorRepository, excursionRepository);
-
-
-        for (int i = 0; i < 3; i++) {
-            Visitor visitor = new Visitor();
-            visitor.setIdentifier(UUID.randomUUID());
-            visitor.setFullName("Visitor " + i);
-            visitor.setAge(20 + i);
-            visitor.setTicketType(i % 2 == 0 ? Visitor.TicketType.FULL : Visitor.TicketType.DISCOUNTED);
-            visitorRepository.save(visitor);
-        }
-
-        return visitorService;
+    VisitorService visitorService(VisitorRepository visitorRepository, ExcursionRepository excursionRepository) {
+        return new VisitorService(visitorRepository, excursionRepository);
     }
 
     @Bean
-    ExcursionService excursionService(ExcursionRepository excursionRepository) {
-        ExcursionService excursionService = new ExcursionService(excursionRepository);
-        return excursionService;
+    ExcursionService excursionService(ExcursionRepository excursionRepository,
+                                      ExhibitRepository exhibitRepository,
+                                      VisitorRepository visitorRepository) {
+        return new ExcursionService(excursionRepository,
+                exhibitRepository,
+                visitorRepository);
     }
-
-    @Bean
-    @DependsOn({"exhibitService", "visitorService"})
-    public Object initExcursions(ExcursionRepository excursionRepository,
-                                 ExhibitService exhibitService,
-                                 VisitorService visitorService) {
-
-        var exhibits = exhibitService.getAllExhibits();
-        var visitors = visitorService.getAllVisitors();
-
-        if (!exhibits.isEmpty() && !visitors.isEmpty()) {
-            for (int i = 0; i < Math.min(3, exhibits.size()); i++) {
-                Excursion excursion = new Excursion();
-                excursion.setIdentifier(UUID.randomUUID());
-                excursion.setExhibitId(exhibits.get(i).getIdentifier());
-                excursion.setVisitorId(visitors.get(i % visitors.size()).getIdentifier());
-                excursion.setDate(LocalDate.now().plusDays(i));
-                excursion.setGuide("Guide " + (i + 1));
-                excursionRepository.save(excursion);
-            }
-        }
-
-        return null;
-    }
-
     @Bean
     @ConditionalOnProperty(prefix = "statistics", name = "service", havingValue = "console2000")
     StatisticsService statisticsService2000(ExhibitService exhibitService,

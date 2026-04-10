@@ -2,6 +2,9 @@ package digital.zil.hl.module1.model;
 
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +19,8 @@ public class Visitor {
     @Column(nullable = false)
     private String fullName;
 
+    @NonNull
+    @Column(nullable = false)
     private int age;
 
     @NonNull
@@ -23,12 +28,15 @@ public class Visitor {
     @Column(nullable = false)
     private TicketType ticketType;
 
+    @ManyToMany(mappedBy = "visitors")
+    private Set<Excursion> excursions = new HashSet<>();
+
     public enum TicketType {
         FULL, DISCOUNTED
     }
 
     public Visitor(@NonNull UUID identifier, @NonNull String fullName,
-                   int age, @NonNull TicketType ticketType) {
+                   @NonNull int age, @NonNull TicketType ticketType) {
         this.identifier = identifier;
         this.fullName = fullName;
         this.age = age;

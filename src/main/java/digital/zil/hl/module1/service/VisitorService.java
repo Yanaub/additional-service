@@ -44,13 +44,17 @@ public class VisitorService {
         }
         return visitorRepository.save(visitor);
     }
-
+    boolean hasExcursionsForVisitor(UUID visitorId) {
+        return excursionRepository.findAll().stream()
+                .anyMatch(ex -> ex.getVisitors().stream()
+                        .anyMatch(v -> v.getIdentifier().equals(visitorId)));
+    }
     public void deleteVisitor(String id) {
         UUID uuid = UUID.fromString(id);
         if (!visitorRepository.existsById(uuid)) {
             throw new VisitorException(format(VISITOR_NOT_FOUND_MSG, id));
         }
-        if (excursionRepository.existsByVisitorId(uuid)) {
+        if (hasExcursionsForVisitor(uuid)) {
             throw new VisitorException(format(VISITOR_HAS_EXCURSIONS_MSG, id));
         }
         visitorRepository.deleteById(uuid);

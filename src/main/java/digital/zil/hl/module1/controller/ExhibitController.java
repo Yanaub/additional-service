@@ -23,8 +23,11 @@ public class ExhibitController {
         return exhibitService.getAllExhibits();
     }
     @GetMapping("/exhibits/rating")
-    public Map<String, Integer> getExhibitsRating() {
-        return exhibitService.ratingExhibits();
+    public Map<String, Integer> getRating(
+            @RequestParam int year,
+            @RequestParam int month
+    ) {
+        return exhibitService.ratingExhibits(year, month);
     }
 
     @GetMapping("/exhibits/{id}")

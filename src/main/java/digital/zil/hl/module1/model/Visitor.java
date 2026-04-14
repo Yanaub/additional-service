@@ -28,12 +28,12 @@ public class Visitor {
     @Column(nullable = false)
     private TicketType ticketType;
 
-    @ManyToMany(mappedBy = "visitors")
-    private Set<Excursion> excursions = new HashSet<>();
 
     public enum TicketType {
         FULL, DISCOUNTED
     }
+    @ManyToMany(mappedBy = "visitors")
+    private Set<Excursion> excursions = new HashSet<>();
 
     public Visitor(@NonNull UUID identifier, @NonNull String fullName,
                    @NonNull int age, @NonNull TicketType ticketType) {
@@ -45,7 +45,7 @@ public class Visitor {
 
     public Visitor() {}
 
-    // геттеры/сеттеры без изменений
+
     @NonNull public UUID getIdentifier() { return identifier; }
     public void setIdentifier(@NonNull UUID identifier) { this.identifier = identifier; }
     @NonNull public String getFullName() { return fullName; }

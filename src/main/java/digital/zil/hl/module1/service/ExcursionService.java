@@ -33,28 +33,7 @@ public class ExcursionService {
         this.visitorRepository = visitorRepository;
     }
 
-    public Excursion save2Excursion(Excursion dto) {
-        Excursion excursion = new Excursion();
-        excursion.setIdentifier(UUID.randomUUID());
-        excursion.setDate(dto.getDate());
-        excursion.setGuide(dto.getGuide());
 
-        // Экспонаты: берём только ID из dto, подгружаем из БД
-        Set<Exhibit> exhibits = dto.getExhibits().stream()
-                .map(e -> exhibitRepository.findById(e.getIdentifier())
-                        .orElseThrow(() -> new RuntimeException("Exhibit not found: " + e.getIdentifier())))
-                .collect(Collectors.toSet());
-        excursion.setExhibits(exhibits);
-
-        // Посетители: ТО ЖЕ САМОЕ, по ID из dto
-        Set<Visitor> visitors = dto.getVisitors().stream()
-                .map(v -> visitorRepository.findById(v.getIdentifier())
-                        .orElseThrow(() -> new RuntimeException("Visitor not found: " + v.getIdentifier())))
-                .collect(Collectors.toSet());
-        excursion.setVisitors(visitors);
-
-        return excursionRepository.save(excursion);
-    }
     public List<Excursion> getAllExcursions() {
         return excursionRepository.findAll();
     }

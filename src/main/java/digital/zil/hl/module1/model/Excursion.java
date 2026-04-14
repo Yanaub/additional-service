@@ -49,7 +49,6 @@ public class Excursion {
 
     public Excursion() {}
 
-    // геттеры/сеттеры без изменений
     @NonNull public UUID getIdentifier() { return identifier; }
     public void setIdentifier(@NonNull UUID identifier) { this.identifier = identifier; }
 

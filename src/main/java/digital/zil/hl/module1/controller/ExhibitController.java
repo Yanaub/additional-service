@@ -24,8 +24,8 @@ public class ExhibitController {
     }
     @GetMapping("/exhibits/rating")
     public Map<String, Integer> getRating(
-            @RequestParam int year,
-            @RequestParam int month
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month
     ) {
         return exhibitService.ratingExhibits(year, month);
     }

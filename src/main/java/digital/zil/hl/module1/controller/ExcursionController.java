@@ -31,4 +31,32 @@ public class ExcursionController {
     public Excursion updateExcursion(@PathVariable String id, @RequestBody Excursion excursion) {
         return excursionService.updateExcursion(id, excursion);
     }
+
+    @PostMapping("/excursions/{id}/visitors/{visitorId}")
+    public Excursion addVisitor(
+            @PathVariable String id,
+            @PathVariable String visitorId) {
+        return excursionService.addVisitor(id, visitorId);
+    }
+
+    @DeleteMapping("/excursions/{id}/visitors/{visitorId}")
+    public Excursion removeVisitor(
+            @PathVariable String id,
+            @PathVariable String visitorId) {
+        return excursionService.removeVisitor(id, visitorId);
+    }
+
+    @PostMapping("/excursions/{id}/exhibits/{exhibitId}")
+    public Excursion addExhibit(
+            @PathVariable String id,
+            @PathVariable String exhibitId) {
+        return excursionService.addExhibit(id, exhibitId);
+    }
+
+    @DeleteMapping("/excursions/{id}/exhibits/{exhibitId}")
+    public Excursion removeExhibit(
+            @PathVariable String id,
+            @PathVariable String exhibitId) {
+        return excursionService.removeExhibit(id, exhibitId);
+    }
 }

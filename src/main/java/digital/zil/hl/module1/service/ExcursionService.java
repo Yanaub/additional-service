@@ -20,6 +20,8 @@ public class ExcursionService {
 
     public static final String EXCURSION_NOT_FOUND_MSG = "Excursion with ID %s not found";
     public static final String EXCURSION_EXISTS_MSG = "Excursion with ID %s already exists";
+    public static final String VISITOR_NOT_FOUND_MSG = "Visitor with ID %s not found";
+    public static final String EXHIBIT_NOT_FOUND_MSG = "Exhibit with ID %s not found";
 
     private final ExcursionRepository excursionRepository;
     private final ExhibitRepository exhibitRepository;
@@ -67,6 +69,42 @@ public class ExcursionService {
             throw new ExcursionException(format(EXCURSION_NOT_FOUND_MSG, id));
         }
         excursion.setIdentifier(uuid);
+        return excursionRepository.save(excursion);
+    }
+
+    public Excursion addVisitor(String excursionId, String visitorId) {
+        Excursion excursion = excursionRepository.findById(UUID.fromString(excursionId))
+                .orElseThrow(() -> new ExcursionException(format(EXCURSION_NOT_FOUND_MSG, excursionId)));
+        Visitor visitor = visitorRepository.findById(UUID.fromString(visitorId))
+                .orElseThrow(() -> new ExcursionException(format(VISITOR_NOT_FOUND_MSG, visitorId)));
+        excursion.getVisitors().add(visitor);
+        return excursionRepository.save(excursion);
+    }
+
+    public Excursion removeVisitor(String excursionId, String visitorId) {
+        Excursion excursion = excursionRepository.findById(UUID.fromString(excursionId))
+                .orElseThrow(() -> new ExcursionException(format(EXCURSION_NOT_FOUND_MSG, excursionId)));
+        Visitor visitor = visitorRepository.findById(UUID.fromString(visitorId))
+                .orElseThrow(() -> new ExcursionException(format(VISITOR_NOT_FOUND_MSG, visitorId)));
+        excursion.getVisitors().remove(visitor);
+        return excursionRepository.save(excursion);
+    }
+
+    public Excursion addExhibit(String excursionId, String exhibitId) {
+        Excursion excursion = excursionRepository.findById(UUID.fromString(excursionId))
+                .orElseThrow(() -> new ExcursionException(format(EXCURSION_NOT_FOUND_MSG, excursionId)));
+        Exhibit exhibit = exhibitRepository.findById(UUID.fromString(exhibitId))
+                .orElseThrow(() -> new ExcursionException(format(EXHIBIT_NOT_FOUND_MSG, exhibitId)));
+        excursion.getExhibits().add(exhibit);
+        return excursionRepository.save(excursion);
+    }
+
+    public Excursion removeExhibit(String excursionId, String exhibitId) {
+        Excursion excursion = excursionRepository.findById(UUID.fromString(excursionId))
+                .orElseThrow(() -> new ExcursionException(format(EXCURSION_NOT_FOUND_MSG, excursionId)));
+        Exhibit exhibit = exhibitRepository.findById(UUID.fromString(exhibitId))
+                .orElseThrow(() -> new ExcursionException(format(EXHIBIT_NOT_FOUND_MSG, exhibitId)));
+        excursion.getExhibits().remove(exhibit);
         return excursionRepository.save(excursion);
     }
 }

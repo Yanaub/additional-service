@@ -33,8 +33,6 @@ services:
         condition: service_healthy
     networks:
       - museum-network
-    profiles:
-      - tools
 
   app:
     build:

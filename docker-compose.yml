@@ -47,9 +47,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=museum_pass
       - SPRING_FLYWAY_ENABLED=true
       - SPRING_FLYWAY_LOCATIONS=classpath:db/migration
-      - STATISTICSSERVICE_INFOSTRING=LINES
-      - STATISTICS_SERVICE=console2000
-      - FIXEDRATE_IN_MILLISECONDS=1000
+
     depends_on:
       postgres:
         condition: service_healthy

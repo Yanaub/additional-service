@@ -39,12 +39,25 @@ services:
     container_name: museum_app
     ports:
       - "8080:8080"
+    cpus: "1.0"
+    mem_limit: 512m
+    mem_reservation: 256m
+
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/museum
       - SPRING_DATASOURCE_USERNAME=museum_user
       - SPRING_DATASOURCE_PASSWORD=museum_pass
+
+      - SERVER_TOMCAT_MAX_THREADS=${TOMCAT_MAX_THREADS}
+      - SERVER_TOMCAT_MIN_SPARE_THREADS=${TOMCAT_MIN_SPARE_THREADS}
+
       - SPRING_FLYWAY_ENABLED=true
       - SPRING_FLYWAY_LOCATIONS=classpath:db/migration
+
+      - SPRING_JPA_SHOW_SQL=${SHOW_SQL}
+      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=false
+
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,metrics
 
     depends_on:
       postgres:
@@ -53,7 +66,7 @@ services:
     networks:
       - museum-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -31,4 +31,8 @@ public class VisitorController {
     public Visitor updateVisitor(@PathVariable String id, @RequestBody Visitor visitor) {
         return visitorService.updateVisitor(id, visitor);
     }
+    @DeleteMapping("/visitors/clear")
+    public void clearVisitors() {
+        visitorService.deleteAll();
+    }
 }

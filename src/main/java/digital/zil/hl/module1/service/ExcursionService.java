@@ -107,4 +107,7 @@ public class ExcursionService {
         excursion.getExhibits().remove(exhibit);
         return excursionRepository.save(excursion);
     }
+    public void deleteAll() {
+        excursionRepository.deleteAll();
+    }
 }

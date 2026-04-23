@@ -110,4 +110,7 @@ public class ExhibitService {
         LocalDate now = LocalDate.now();
         return ratingExhibits(now.getYear(), now.getMonthValue());
     }
+    public void deleteAll() {
+        exhibitRepository.deleteAll();
+    }
 }

@@ -68,4 +68,7 @@ public class VisitorService {
         visitor.setIdentifier(uuid);
         return visitorRepository.save(visitor);
     }
+    public void deleteAll() {
+        visitorRepository.deleteAll();
+    }
 }

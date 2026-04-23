@@ -59,4 +59,8 @@ public class ExcursionController {
             @PathVariable String exhibitId) {
         return excursionService.removeExhibit(id, exhibitId);
     }
+    @DeleteMapping("/excursions/clear")
+    public void clearExcursions() {
+        excursionService.deleteAll();
+    }
 }

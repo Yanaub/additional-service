@@ -49,5 +49,8 @@ public class ExhibitController {
     public Exhibit updateExhibit(@PathVariable(required = false) String id, @RequestBody Exhibit exhibit) {
         return exhibitService.updateExhibit(id, exhibit);
     }
-
+    @DeleteMapping("/exhibits/clear")
+    public void clearExhibits() {
+        exhibitService.deleteAll();
+    }
 }

@@ -39,7 +39,7 @@ services:
     container_name: museum_app
     ports:
       - "8080:8080"
-    cpus: "1.0"
+    cpus: ${APP_CPU_LIMIT}
     mem_limit: 512m
     mem_reservation: 256m
 

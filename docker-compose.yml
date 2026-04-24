@@ -3,9 +3,9 @@ services:
     image: postgres:16-alpine
     container_name: museum_postgres
     environment:
-      POSTGRES_DB: museum
-      POSTGRES_USER: museum_user
-      POSTGRES_PASSWORD: museum_pass
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -44,9 +44,9 @@ services:
     mem_reservation: 256m
 
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/museum
-      - SPRING_DATASOURCE_USERNAME=museum_user
-      - SPRING_DATASOURCE_PASSWORD=museum_pass
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
 
       - SERVER_TOMCAT_MAX_THREADS=${TOMCAT_MAX_THREADS}
       - SERVER_TOMCAT_MIN_SPARE_THREADS=${TOMCAT_MIN_SPARE_THREADS}
@@ -56,9 +56,7 @@ services:
 
       - SPRING_JPA_SHOW_SQL=${SHOW_SQL}
       - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=false
-
       - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,metrics
-
     depends_on:
       postgres:
         condition: service_healthy

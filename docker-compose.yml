@@ -2,8 +2,8 @@ version: '3.8'
 services:
   backend:
     build:
-      dockerfile: Dockerfile.backend
-    container_name: backend
+      dockerfile: Dockerfile
+    container_name: app
     deploy:
       resources:
         limits:
@@ -16,6 +16,6 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    enviroment:
+    environment:
       SERVER_TOMCAT_MAX_THREADS: ${LIMITS_THREADS}
       SPRING_JPA_SHOW_SQL: "false"

@@ -10,7 +10,7 @@ OUT_DIR = 'results/plots'
 os.makedirs(OUT_DIR, exist_ok=True)
 
 FILENAME_RE = re.compile(
-    r'(?P<origin>local|server)_cpu(?P<cpu>\d+(?:\.\d+)?)_w(?P<write>\d+)_r(?P<read>\d+)\.json'
+    r'(?P<origin>local|server|hlv)_cpu(?P<cpu>\d+(?:\.\d+)?)_w(?P<write>\d+)_r(?P<read>\d+)\.json'
 )
 
 def parse_file_meta(path):
@@ -22,7 +22,7 @@ def parse_file_meta(path):
     d['write'] = int(d['write'])
     d['read'] = int(d['read'])
     d['profile'] = f"{d['write']}/{d['read']}"
-    d['origin'] = 'local->server' if d['origin'] == 'local' else 'server->server'
+    d['origin'] = 'local->server' if d['origin'] == 'hvl' else 'server->server'
     return d
 
 def load_k6_json(path, meta):

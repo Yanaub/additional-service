@@ -4,7 +4,7 @@ import { check, sleep } from 'k6';
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:8080';
 const VUS = Number(__ENV.VUS || 40);
 const DURATION = __ENV.DURATION || '2m';
-const WRITE_SHARE = Number(__ENV.WRITE_SHARE || 50); // 5, 50, 95
+const WRITE_SHARE = Number(__ENV.WRITE_SHARE || 50);
 const THINK_TIME = Number(__ENV.THINK_TIME || 0.3);
 
 export const options = {
@@ -74,4 +74,4 @@ function generateUUID() {
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-}
+  }

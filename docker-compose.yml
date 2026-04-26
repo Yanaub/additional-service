@@ -10,8 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - museum-network
+    #networks:
+    #  - museum-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U museum_user -d museum"]
       interval: 10s
@@ -29,8 +29,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    networks:
-      - museum-network
+    #networks:
+    #  - museum-network
 
   app:
     build:
@@ -59,9 +59,7 @@ services:
       - SPRING_JPA_SHOW_SQL=${SHOW_SQL}
       - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=false
       - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,metrics
-    depends_on:
-      postgres:
-        condition: service_healthy
+
     restart: unless-stopped
     networks:
       - museum-network

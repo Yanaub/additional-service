@@ -1,6 +1,6 @@
-package digital.zil.hl.module1.controller;
+package digital.zil.hl.additional.controller;
 
-import digital.zil.hl.module1.service.RatingService;
+import digital.zil.hl.additional.service.RatingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

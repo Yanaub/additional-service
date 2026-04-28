@@ -1,6 +1,6 @@
-package digital.zil.hl.module1.client;
+package digital.zil.hl.additional.client;
 
-import digital.zil.hl.module1.model.ExcursionDto;
+import digital.zil.hl.additional.model.ExcursionDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;

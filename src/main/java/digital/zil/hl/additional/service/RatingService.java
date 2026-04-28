@@ -1,9 +1,9 @@
-package digital.zil.hl.module1.service;
+package digital.zil.hl.additional.service;
 
-import digital.zil.hl.module1.client.ExhibitClient;
-import digital.zil.hl.module1.client.ExcursionClient;
-import digital.zil.hl.module1.model.ExcursionDto;
-import digital.zil.hl.module1.model.ExhibitDto;
+import digital.zil.hl.additional.client.ExhibitClient;
+import digital.zil.hl.additional.client.ExcursionClient;
+import digital.zil.hl.additional.model.ExcursionDto;
+import digital.zil.hl.additional.model.ExhibitDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,11 +22,11 @@ public class RatingService {
     }
 
     public Map<String, Integer> getRating(Integer year, Integer month) {
-        // Шаг 1: Запрашиваем данные из основного сервиса (два отдельных HTTP-запроса)
+
         List<ExhibitDto> exhibits = exhibitClient.getAllExhibits();
         List<ExcursionDto> excursions = excursionClient.getAllExcursions();
 
-        // Шаг 2: Java JOIN - инициализируем рейтинг всех экспонатов нулями
+
         Map<String, Integer> rating = exhibits.stream()
                 .collect(Collectors.toMap(
                         ExhibitDto::getName,
@@ -35,14 +35,14 @@ public class RatingService {
                         LinkedHashMap::new
                 ));
 
-        // Шаг 3: Фильтрация экскурсий по периоду (логика из ExhibitService.ratingExhibits)
+
         List<ExcursionDto> filteredExcursions;
 
         if (year == null && month == null) {
-            // Без фильтра - все экскурсии
+
             filteredExcursions = excursions;
         } else if (year != null && month != null) {
-            // Фильтруем по конкретному месяцу
+
             LocalDate startDate = LocalDate.of(year, month, 1);
             LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
@@ -55,12 +55,12 @@ public class RatingService {
             throw new IllegalArgumentException("Both year and month must be provided or none of them");
         }
 
-        // Шаг 4: Подсчёт посещаемости - JOIN на стороне Java (не в БД)
+
         filteredExcursions.stream()
                 .flatMap(excursion -> excursion.getExhibits().stream())
                 .forEach(exhibit -> rating.merge(exhibit.getName(), 1, Integer::sum));
 
-        // Шаг 5: Сортировка по убыванию посещаемости
+
         return rating.entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(

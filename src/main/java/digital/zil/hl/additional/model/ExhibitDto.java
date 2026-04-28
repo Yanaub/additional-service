@@ -1,4 +1,4 @@
-package digital.zil.hl.module1.model;
+package digital.zil.hl.additional.model;
 
 import java.util.UUID;
 

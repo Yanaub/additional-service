@@ -1,4 +1,4 @@
-package digital.zil.hl.module1.model;
+package digital.zil.hl.additional.model;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ public class ExcursionDto {
     private LocalDate date;
     private String guide;
     private Set<ExhibitDto> exhibits = new HashSet<>();
-    private Set<VisitorDto> visitors = new HashSet<>();  // если понадобится
+    private Set<VisitorDto> visitors = new HashSet<>();
 
     public ExcursionDto() {}
 

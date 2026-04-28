@@ -4,6 +4,7 @@ import digital.zil.hl.additional.client.ExhibitClient;
 import digital.zil.hl.additional.client.ExcursionClient;
 import digital.zil.hl.additional.model.ExcursionDto;
 import digital.zil.hl.additional.model.ExhibitDto;
+import digital.zil.hl.additional.service.ExhibitCache;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,10 +16,12 @@ public class RatingService {
 
     private final ExhibitClient exhibitClient;
     private final ExcursionClient excursionClient;
+    private final ExhibitCache exhibitCache;
 
-    public RatingService(ExhibitClient exhibitClient, ExcursionClient excursionClient) {
+    public RatingService(ExhibitClient exhibitClient, ExcursionClient excursionClient, ExhibitCache exhibitCache) {
         this.exhibitClient = exhibitClient;
         this.excursionClient = excursionClient;
+        this.exhibitCache = exhibitCache;
     }
 
     public Map<String, Integer> getRating(Integer year, Integer month) {
@@ -68,7 +71,7 @@ public class RatingService {
             Integer count = entry.getValue().intValue();
 
 
-            ExhibitDto exhibit = exhibitClient.getExhibitById(exhibitId);
+            ExhibitDto exhibit = exhibitCache.getExhibit(exhibitId);
             String exhibitName = exhibit.getName();
 
             rating.put(exhibitName, count);

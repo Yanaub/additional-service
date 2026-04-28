@@ -3,11 +3,11 @@ package digital.zil.hl.additional.client;
 import digital.zil.hl.additional.model.ExhibitDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -23,12 +23,14 @@ public class ExhibitClient {
     }
 
     public List<ExhibitDto> getAllExhibits() {
-        ResponseEntity<List<ExhibitDto>> response = restTemplate.exchange(
-                crudUrl + "/exhibits",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ExhibitDto>>() {}
+        String url = crudUrl + "/exhibits";
+
+
+        ResponseEntity<ExhibitDto[]> response = restTemplate.getForEntity(
+                url,
+                ExhibitDto[].class
         );
-        return response.getBody();
+
+        return Arrays.asList(response.getBody());
     }
 }

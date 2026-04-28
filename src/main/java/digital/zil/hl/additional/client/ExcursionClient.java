@@ -2,12 +2,11 @@ package digital.zil.hl.additional.client;
 
 import digital.zil.hl.additional.model.ExcursionDto;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -23,12 +22,13 @@ public class ExcursionClient {
     }
 
     public List<ExcursionDto> getAllExcursions() {
-        ResponseEntity<List<ExcursionDto>> response = restTemplate.exchange(
-                crudUrl + "/excursions",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ExcursionDto>>() {}
+        String url = crudUrl + "/excursions";
+
+        ResponseEntity<ExcursionDto[]> response = restTemplate.getForEntity(
+                url,
+                ExcursionDto[].class
         );
-        return response.getBody();
+
+        return Arrays.asList(response.getBody());
     }
 }

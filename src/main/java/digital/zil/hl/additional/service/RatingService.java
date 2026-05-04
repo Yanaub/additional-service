@@ -70,8 +70,9 @@ public class RatingService {
             UUID exhibitId = entry.getKey();
             Integer count = entry.getValue().intValue();
 
-
-            ExhibitDto exhibit = exhibitCache.getExhibit(exhibitId);
+           
+           // ExhibitDto exhibit = exhibitClient.getExhibitById(exhibitId);
+           ExhibitDto exhibit = exhibitCache.getExhibit(exhibitId);
             String exhibitName = exhibit.getName();
 
             rating.put(exhibitName, count);

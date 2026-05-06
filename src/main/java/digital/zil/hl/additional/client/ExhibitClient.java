@@ -1,8 +1,8 @@
 package digital.zil.hl.additional.client;
 
 import digital.zil.hl.additional.model.ExhibitDto;
-import io.github.resilience4j.retry.Retry;
-import io.github.resilience4j.retry.RetryRegistry;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +15,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+
 @Component
 public class ExhibitClient {
 
     private static final Logger log = LoggerFactory.getLogger(ExhibitClient.class);
 
     private final RestTemplate restTemplate;
-    private final RetryRegistry retryRegistry;
+    private final CircuitBreakerRegistry circuitBreakerRegistry; 
 
     @Value("${crud.service.url}")
     private String crudUrl;
 
     @Autowired
-    public ExhibitClient(RestTemplate restTemplate, RetryRegistry retryRegistry) {
+    public ExhibitClient(RestTemplate restTemplate, CircuitBreakerRegistry circuitBreakerRegistry) { 
         this.restTemplate = restTemplate;
-        this.retryRegistry = retryRegistry;
+        this.circuitBreakerRegistry = circuitBreakerRegistry;
     }
 
     public List<ExhibitDto> getAllExhibits() {
@@ -40,8 +41,7 @@ public class ExhibitClient {
     }
 
     public ExhibitDto getExhibitById(UUID id) {
-
-        Retry retry = retryRegistry.retry("generalRetryConfig"); 
+        CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker("callCoreServiceCB"); 
 
         java.util.function.Supplier<ExhibitDto> exhibitSupplier = () -> {
              String url = crudUrl + "/exhibits/" + id;
@@ -51,12 +51,12 @@ public class ExhibitClient {
         };
 
         try {
-            ExhibitDto result = retry.executeSupplier(exhibitSupplier);
+            ExhibitDto result = circuitBreaker.executeSupplier(exhibitSupplier); 
             log.debug("Successfully fetched exhibit ID: {}", id);
             return result;
         } catch (Exception e) { 
-             log.error("Failed to fetch exhibit ID '{}' from Core Service after all retries via ExhibitClient: {}", id, e.getMessage(), e);
-             throw new RuntimeException("Could not retrieve exhibit ID '" + id + "' from Core Service after retries", e);
+             log.error("Call to Core Service for exhibit ID '{}' failed or was prevented by Circuit Breaker: {}", id, e.getMessage(), e);
+             throw new RuntimeException("Could not retrieve exhibit ID '" + id + "' from Core Service, possibly due to Circuit Breaker or underlying error", e);
         }
     }
 }
